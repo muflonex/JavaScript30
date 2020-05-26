@@ -11,25 +11,39 @@ body,html {
 }
 
 .keys {
-  display: flex;
-  flex: 1;
+  display: grid;
   min-height: 100vh;
-  align-items: center;
+  grid-template-columns: repeat(7, 100px);
+  grid-template-rows: repeat(4,100px);
+  grid-template-areas:
+  ". W . . . I ."
+  "A S D . J K L"
+  ". . . . . . ."
+  ". . X X X . .";
   justify-content: center;
+  align-content:center;
+  gap: 1em;
 }
+.key[data-key="87"] {grid-area: W;}
+.key[data-key="83"] {grid-area: S;}
+.key[data-key="65"] {grid-area: A;}
+.key[data-key="68"] {grid-area: D;}
+.key[data-key="73"] {grid-area: I;}
+.key[data-key="74"] {grid-area: J;}
+.key[data-key="75"] {grid-area: K;}
+.key[data-key="76"] {grid-area: L;}
+.key[data-key="32"] {grid-area: X;}
 
 .key {
   border: .4rem solid black;
   border-radius: .5rem;
-  margin: 1rem;
-  font-size: 1.5rem;
-  padding: 1rem .5rem;
+  font-size: 2.5rem;
+  font-weight: bold;
   transition: all .07s ease;
-  width: 10rem;
   text-align: center;
   color: white;
-  background: rgba(0,0,0,0.4);
-  text-shadow: 0 0 .5rem black;
+  background: #ff004f66;
+  text-shadow: 0 0 0.5rem black;
 }
 
 .playing {
