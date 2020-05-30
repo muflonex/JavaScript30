@@ -9,16 +9,17 @@
 
     <div class="clock">
       <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
+        <div class="hand hours-hand"></div>
+        <div class="hand minutes-hand"></div>
+        <div class="hand seconds-hand"></div>
       </div>
     </div>
 
 
   <style>
     html {
-      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      background: rgb(0,133,255);
+      background: linear-gradient(330deg, rgba(0,133,255,1) 0%, rgba(33,241,215,1) 100%);
       background-size: cover;
       font-family: 'helvetica neue';
       text-align: center;
@@ -35,6 +36,9 @@
     }
 
     .clock {
+      background: url('cyferblat.png');
+      background-repeat: no-repeat;
+      background-size: 100%;
       width: 30rem;
       height: 30rem;
       border: 20px solid white;
@@ -57,17 +61,75 @@
     }
 
     .hand {
-      width: 50%;
-      height: 6px;
       background: black;
       position: absolute;
-      top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+    }
+    .hours-hand {
+      height: 15px;
+      width: 40%;
+      left: 10%;
+      top: calc(50% - 7.5px);
+      transition: .5s cubic-bezier(0, 1.46, 0.55, 0.57);
+    }
+    .minutes-hand {
+      height: 6px;
+      width: 45%;
+      left: 5%;
+      top: calc(50% - 3px);
+      transition: .3s cubic-bezier(0, 1.46, 0.55, 0.57);
+    }
+    .seconds-hand {
+      height: 3px;
+      width: 50%;
+      left: 0;
+      top: calc(50% - 1.5px);
+      transition: .05s cubic-bezier(0, 2.46, 0.55, 0.57);
     }
 
   </style>
 
   <script>
+    function setHands() { 
+      const now = new Date();
+      const timeUnits = ['hours', 'minutes', 'seconds'];
+      
+      timeUnits.forEach(unit => {
+        const element = document.querySelector(`.${unit}-hand`);
+        const degrees = getUnitDegreeValue(unit, now);
+        element.style.transform = `rotate(${degrees}deg)`;
+      });
+    }
 
+    function getUnitDegreeValue(unit, time) {
+      const fullDegree = 360; 
+      const startingDegree = 90;
+
+      return (getUnitValue(unit,time) / getUnitPerCycle(unit)) * fullDegree + startingDegree;
+    }
+
+    function getUnitValue(unit, time) {
+      if (unit === 'hours') {
+        const offset = time.getTimezoneOffset() / getUnitPerCycle('minutes');
+        return time[`get${capFirst(unit)}`]() - offset; 
+      }
+        return time[`get${capFirst(unit)}`](); //accessing Date method and executing it
+    }
+
+    function getUnitPerCycle(unit) {
+      return {
+        seconds:60,
+        minutes:60,
+        hours:24
+      }[unit]
+    }
+
+    function capFirst(text) {
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    setInterval(setHands, 1000);
 
   </script>
 </body>
