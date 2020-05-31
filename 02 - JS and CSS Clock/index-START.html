@@ -110,18 +110,14 @@
     }
 
     function getUnitValue(unit, time) {
-      if (unit === 'hours') {
-        const offset = time.getTimezoneOffset() / getUnitPerCycle('minutes');
-        return time[`get${capFirst(unit)}`]() - offset; 
-      }
-        return time[`get${capFirst(unit)}`](); //accessing Date method and executing it
+        return time[`get${capFirst(unit)}`]();
     }
 
     function getUnitPerCycle(unit) {
       return {
         seconds:60,
         minutes:60,
-        hours:24
+        hours:12
       }[unit]
     }
 
