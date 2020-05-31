@@ -9,6 +9,7 @@
 
     <div class="clock">
       <div class="clock-face">
+        <div class="pin"></div>
         <div class="hand hours-hand"></div>
         <div class="hand minutes-hand"></div>
         <div class="hand seconds-hand"></div>
@@ -34,7 +35,16 @@
       min-height: 100vh;
       align-items: center;
     }
-
+    .pin {
+      position: absolute;
+      left: calc( 50% - 15px);
+      top: calc( 50% - 15px);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: black;
+      z-index: 3;
+    }
     .clock {
       background: url('cyferblat.png');
       background-repeat: no-repeat;
@@ -110,7 +120,7 @@
     }
 
     function getUnitValue(unit, time) {
-        return time[`get${capFirst(unit)}`]();
+        return time[`get${capFirst(unit)}`](); //accessing Date method and executing it
     }
 
     function getUnitPerCycle(unit) {
