@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Type Ahead 👀</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <form class="search-form">
@@ -14,9 +16,49 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
-</script>
+    const cities = [];
+    const searchInput = document.querySelector('.search');
+
+    fetch(endpoint)
+      .then(res => res.json())
+      .then(data => cities.push(...data));
+
+    searchInput.addEventListener('change', displayMatches );
+    searchInput.addEventListener('keyup', displayMatches );
+
+    function displayMatches() {
+      const suggestions = document.querySelector('.suggestions');
+      const matches = findMatches(this.value, cities);
+      suggestions.innerHTML = matches.map(processItem.bind(this)).join('');
+    }
+
+    function findMatches(wordToMatch, cities) {
+      return cities.filter(item => {
+        const term = new RegExp(wordToMatch, 'gi');
+        return item.city.match(term) || item.state.match(term);
+      });
+    }
+
+    function processItem ( item ) {
+      const { city, state, population } = item;
+      const term = new RegExp(this.value, 'gi');
+      const cityName = city.replace(term, `<span class="h1">${this.value}</span>`);
+      const stateName = state.replace(term, `<span class="h1">${this.value}</span>`);
+
+      return `<li>
+                <span class="name">${cityName}, ${stateName}</span>
+                <span class="population">${format(population)}</span>
+              </li>`;
+    }
+
+    function format(value) {
+      return Number(value).toLocaleString('PL-pl');
+    }
+
+  </script>
 </body>
+
 </html>
