@@ -18,29 +18,45 @@
     }
 
     // Regular
-
+    console.log(`Whatever`);
     // Interpolated
-
+    console.log(`Some %s for you`, `🎂`);
     // Styled
-
+    console.log(`%c I am a styled text`, 'font-size: 12px; color: blue; background: red');
     // warning!
-
+    console.warn(`Beware alligators`);
     // Error :|
-
+    console.error(`This is some error`);
     // Info
-
+    console.info(`Fun fact: Poland has the most tick spiders in the EU`);
     // Testing
-
+    const p = document.querySelector('p');
+    console.assert(p.classList.contains('poo'), `There is no 'poo' class present`);
     // clearing
-
+    // console.clear();
     // Viewing DOM Elements
-
+    console.dir(p);
     // Grouping together
-
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`);
+      console.count(`This is ${dog.name} lap`);
+      console.log(`Dog's name is ${dog.name}`);
+      console.log(`His age is ${dog.age}`);
+      console.groupEnd(`${dog.name}`);
+    });
     // counting
-
+    console.count('Bleep');
+    console.count('Bleep');
+    console.count('Bleep');
+    console.count('Bleep');
     // timing
-
+    console.time(`Fetching data`);
+    fetch(`https://api.github.com/users/muflonex`)
+    .then(data => data.json())
+    .then(data => {
+      console.timeEnd(`Fetching data`);
+      console.table(data);
+    });
   </script>
 </body>
 </html>
